@@ -47,6 +47,14 @@ print("Decision Tree Rules:\n", rules)
 y_pred = model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print(f"Accuracy: {accuracy:.2f}")
+
+# Derive feature importances
+feature_importances = model.feature_importances_
+feature_names = X_train.columns
+
+# Plot the feature importances
+plt.barh(feature_names, feature_importances)
+plt.show()
 ```
 
 *The decision rules reveal exactly which features and thresholds drive the predictions.*
@@ -107,6 +115,8 @@ Permutation importance is a straightforward technique that quantifies the contri
 | **2. Feature Shuffling**     | For each feature, randomly shuffle its values in the test set to break its relationship with the target.                                                         |
 | **3. Performance Recalculation** | Re-measure the model’s performance on the modified data.                                                                                                     |
 | **4. Importance Calculation**| Calculate the drop in performance compared to the baseline. A larger drop indicates a more influential feature. Repeat the process for robust estimates.       |
+
+![Effect of Permutating a Predictive Feature](images/permuted_predictive_feature.png)
 
 #### Example: Permutation Importance with a Neural Network
 
@@ -226,24 +236,43 @@ shap_values = explainer.shap_values(X)
 # - 'X.iloc[0, :]' passes the feature values for the first instance.
 shap.force_plot(explainer.expected_value, shap_values[0], X.iloc[0, :], matplotlib=True)
 ```
+![SHAP Force Plot](images/shap-force-plot.png)
 
-#### 3.4.2 Summary (Beeswarm) Plot (Global Explanation)
+#### 3.4.2 Waterfall Plot (Local Explanation)
+
+```python
+# Generate a waterfall plot to show how features increase or decrease predictions
+# relative to baseline (model's average prediction across all samples)
+shap.waterfall_plot(
+  shap.Explanation(
+    values=shap_values[:,1],
+    base_values=explainer.expected_value[1],
+    data=X.iloc[0,:],
+    feature_names=X.columns
+    )
+  )
+```
+![SHAP Waterfall Plot](images/shap-waterfall-plots.png)
+
+#### 3.4.3 Summary (Beeswarm) Plot (Global Explanation)
 
 ```python
 # Generate a summary beeswarm plot which aggregates SHAP values for all observations.
 # This plot shows the distribution of SHAP values for each feature across the dataset.
 shap.summary_plot(shap_values, X, plot_type="bee")
 ```
+![SHAP Beeswarm Plot](images/shap-beeswarm-plots.png)
 
-#### 3.4.3 Dependence Plot (Global Explanation)
+#### 3.4.4 Dependence Plot (Global Explanation)
 
 ```python
 # Generate a dependence plot for a specific feature (e.g., 'Feature1').
 # The plot shows how the SHAP values of 'Feature1' vary with its actual values.
 shap.dependence_plot("Feature1", shap_values, X)
 ```
+![SHAP Dependence Plot](images/shap-dependence-plot.png)
 
-#### 3.4.4 Decision Plot (Global Explanation)
+#### 3.4.5 Decision Plot (Global Explanation)
 
 ```python
 # Generate a decision plot which visualizes how feature contributions accumulate to form the prediction.
@@ -298,6 +327,8 @@ exp.as_pyplot_figure()
 plt.title("LIME Explanation for a Single Instance")
 plt.show()
 ```
+
+![LIME Classification Explanation](images/lime-classification.png)
 
 *LIME helps reveal which features locally drive the prediction by constructing an interpretable linear model around the chosen data point.*
 
@@ -394,6 +425,8 @@ print(f"Local Faithfulness Score: {faithfulness_score}")
 
 Unsupervised models, such as clustering algorithms, often lack labels, making explainability challenging. One strategy is to evaluate how the removal of a feature affects clustering quality (e.g., using the silhouette score).
 
+![Cluster Silhouette Score](images/cluster-silhouette.png)
+
 #### Example: Evaluating Feature Impact on Clustering Quality
 
 ```python
@@ -422,6 +455,8 @@ for i in range(X.shape[1]):
 ### 6.4 Feature Importance for Cluster Assignments
 
 Another approach for unsupervised models is to assess how each feature affects the cluster assignments. Using metrics like the Adjusted Rand Index (ARI), you can compare the original clustering to that after removing a feature.
+
+![Cluster Adjusted Rand Index](images/cluster-adjusted-rand.png)
 
 #### Example: Evaluating Feature Importance Using Adjusted Rand Index (ARI)
 
