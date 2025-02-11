@@ -116,7 +116,11 @@ Permutation importance is a straightforward technique that quantifies the contri
 | **3. Performance Recalculation** | Re-measure the model’s performance on the modified data.                                                                                                     |
 | **4. Importance Calculation**| Calculate the drop in performance compared to the baseline. A larger drop indicates a more influential feature. Repeat the process for robust estimates.       |
 
+In the following figures, we observe the effect of permuting features on the correlation between the feature and the target and consequently on the model statistical performance.
+
 ![Effect of Permutating a Predictive Feature](images/permuted_predictive_feature.png)
+
+We observe that permuting a predictive feature breaks the correlation between the feature and the target, and consequently the model statistical performance decreases. Correspondingly, if we permute a non-predictive feature, we do not expect it to significantly degrade the model performance.
 
 #### Example: Permutation Importance with a Neural Network
 
@@ -549,6 +553,12 @@ We also discussed practical considerations when choosing between Tree and Kernel
 - [Interpretable Machine Learning by Christoph Molnar](https://christophm.github.io/interpretable-ml-book/)  
   *A comprehensive guide that covers a wide range of interpretability techniques, including practical advice and theoretical background.*
 
-- [Introduction to SHAP with Python](https://medium.com/towards-data-science/introduction-to-shap-with-python-d27edc23c454)  
-  *How to create and interpret SHAP plots: waterfall, force, mean SHAP, beeswarm and dependence.*
+- [Explaining Machine Learning Models: A Non-Technical Guide to Interpreting SHAP Analyses](https://www.aidancooper.co.uk/a-non-technical-guide-to-interpreting-shap-analyses/)
+  *Blogpost on how to interpret SHAP visualizations.*
 
+### Additional Credits
+
+- [DataCamp Course: Explainable AI in Python](https://www.datacamp.com/courses/explainable-ai-in-python)
+  *Gain the essential skills using Scikit-learn, SHAP, and LIME to test and build transparent, trustworthy, and accountable AI systems.*
+
+- [SciKit-Learn Documentation: Permutation Feature Importance](https://scikit-learn.org/stable/modules/permutation_importance.html)
