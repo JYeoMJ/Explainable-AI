@@ -122,29 +122,36 @@ SHAP combines a solid theoretical foundation from cooperative game theory with i
 
 At the core of SHAP lies the **Shapley value** from cooperative game theory. Suppose a model uses a set of features \( N \). The contribution of a feature \( i \) to the prediction for an observation \( x \) is given by:
 
-\[
-\phi_i(x) = \sum_{S \subseteq N \setminus \{i\}} \frac{|S|!(|N| - |S| - 1)!}{|N|!} \Bigl[f_{S \cup \{i\}}(x_{S \cup \{i\}}) - f_S(x_S)\Bigr]
-\]
+$$
+\phi_i(x) = \sum_{S \subseteq N \setminus \{i\}} \frac{|S|!(|N| - |S| - 1)!}{|N|!} \left[ f_{S \cup \{i\}}(x_{S \cup \{i\}}) - f_S(x_S) \right]
+$$
 
 #### Breaking Down the Formula:
 
 - **Summing Over Subsets:**  
   The sum runs over all possible subsets \( S \) of features that exclude \( i \). Each \( S \) represents a different “context” in which \( i \) might be added.
-  
+
 - **Combinatorial Weight:**  
-  \[
+  The fraction
+
+  $$
   \frac{|S|!(|N| - |S| - 1)!}{|N|!}
-  \]
-  - **\( |S|! \):** Counts the number of ways to order the features in \( S \).
-  - **\( (|N| - |S| - 1)! \):** Counts the orderings of the remaining features (excluding \( i \)).
-  - **\( |N|! \):** Total orderings of all features.  
+  $$
+
+  - \( |S|! \) counts the number of ways to order the features in \( S \).
+  - \( (|N| - |S| - 1)! \) counts the number of orderings of the remaining features (excluding \( i \)).
+  - \( |N|! \) is the total number of orderings of all features.  
+
   *Intuition:* This fraction represents the probability that, in a random ordering, exactly the features in \( S \) come before \( i \).
-  
+
 - **Marginal Contribution:**  
-  \[
+
+  $$
   f_{S \cup \{i\}}(x_{S \cup \{i\}}) - f_S(x_S)
-  \]
+  $$
+
   This term measures how much the model's prediction changes when feature \( i \) is added.
+
 
 **Key Takeaways:**
 - The Shapley value fairly distributes the “credit” for the prediction across all features.
