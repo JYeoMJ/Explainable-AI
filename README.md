@@ -129,9 +129,9 @@ $$
   
 - **Combinatorial Weight:**  
 
-  $$
-  \frac{|S|!(|N| - |S| - 1)!}{|N|!}
-  $$
+$$
+\frac{|S|!(|N| - |S| - 1)!}{|N|!}
+$$
   
   - $|S|!$ counts the number of orderings for features in $S$.
   - $(|N| - |S| - 1)!$ counts the orderings for the remaining features (excluding $i$).
@@ -141,9 +141,9 @@ $$
 
 - **Marginal Contribution:**  
 
-  $$
-  f_{S \cup \{i\}}(x_{S \cup \{i\}}) - f_S(x_S)
-  $$
+$$
+f_{S \cup \{i\}}(x_{S \cup \{i\}}) - f_S(x_S)
+$$
   
   This measures how much the model's prediction changes when feature $i$ is added.
 
@@ -161,7 +161,7 @@ $$
   Considering all possible orderings ensures every possible context is evaluated.
   
 - **Local Explanations:**  
-  SHAP computes a contribution for every feature per observation, forming a matrix of shape $[ \text{num\_observations}, \text{num\_features} ]$.
+  SHAP computes a contribution for every feature per observation, forming a matrix of shape [ {*num_observations*}, {*num_features*} ].
 
 ### 3.3 SHAP Visualization Options
 
